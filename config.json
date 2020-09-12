@@ -1,0 +1,82 @@
+{
+	"prefix": "!",
+	"token": "Y0ur t0k3n h3r3",
+	"help": [
+		"`!help` - The command you literally just called",
+		"`!courses` - Get the list of courses",
+		"`!drive <course>` - Get the Google Drive link for a course",
+		"`!meetings <course>` - Get a list of meeting links for a course",
+		"`!links <course>` - Get additional links for a course",
+		"`!emails <course>` - Get a list of emails for a course",
+		"`!breakdown <course>` - Get the marking breakdown for a course",
+		"`!contents <course>` - Get the contents being covered for a course",
+		"`!bully <username>` - Bully someone because they deserve it",
+		"`!attack <username>` - Attack someone when you feel harassed",
+		"`!love <username>` - Send your love to someone. Don't provide a username and I'll send love to you instead."
+	],
+	"courses": ["109", "204", "205", "222", "240", "250"],
+	"drive": {
+		"109": "",
+		"204": "",
+		"205": "",
+		"222": "",
+		"240": "",
+		"250": ""
+	},
+	"meetings": {
+		"109": [
+			"Lecture: <URL>"
+		],
+		"204": [
+			"Lecture: <URL>"
+		],
+		"205": [
+			"Lecture: <URL>"
+		],
+		"240": [
+			"Lab: <URL>"
+		],
+		"250": [
+			"Lecture: <URL>"
+		]
+	},
+	"links": {
+		"205": [
+			"Site: "
+		],
+		"240": [
+			"Piazza: "
+		],
+		"250": [
+			"Piazza: "
+		]
+	},
+	"emails": {
+		"109": [
+			""
+		],
+		"204": [
+			""
+		],
+		"205": [
+			""
+		],
+		"222": [
+			""
+		],
+		"240": [
+			""
+		],
+		"250": [
+			""
+		]
+	},
+	"dates": [
+		"15 8 * * 1|@everyone This message will send every Monday at 8:15am",
+    "15 8 * 1 3|@everyone This message will send every Wednesday in February at 8:15am",
+    "15 8 4 1 3|@everyone This message will send every Wednesday, February 4 at 8:15am",
+    "15 8 * 4 *|@everyone This message will send everyday in May at 8:15am",
+    "20 16 * 4,6 *|@everyone This message will send everyday in May and July at 4:20pm",
+    "20 16 * 4-6 *|@everyone This message will send everyday from May to July at 4:20pm"
+	]
+}
