@@ -59,10 +59,14 @@ const prefix = config.prefix,
       links = config.links,
       emails = config.emails;
 
+//const token = process.env.DISCORD_TOKEN;
+
 var dates = config.dates;
 
 var cron_array = [];
 var message_array = [];
+
+var cron_check = setInterval(check_cron_expressions, 60000);
 
 config_dates();
 
@@ -231,6 +235,10 @@ client.on('message', message => {
         var emails_str = get_string_from_array(emails[args[0]]);
         return message.channel.send(`${message.author} Here's the email list for ${args[0]}:\n\n${emails_str}`);
     }
+    else if (command == 'logout') {
+        clearInterval(cron_check);
+        client.destroy();
+    }
     else if (command == 'bully') {
         message.react('712739654398377985');
         message.react('🔥');
@@ -302,5 +310,3 @@ function check_cron_expressions() {
         }
     }
 }
-
-setInterval(check_cron_expressions, 60000);
