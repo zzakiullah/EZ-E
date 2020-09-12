@@ -61,6 +61,11 @@ const prefix = config.prefix,
 
 //const token = process.env.DISCORD_TOKEN;
 
+var help_str = help[0];
+for (let i=1; i<help.length; i++) {
+    help_str += ("\n" + help[i]);
+}
+
 var dates = config.dates;
 
 var cron_array = [];
@@ -93,7 +98,7 @@ client.on('message', message => {
 
     // display all commands
     if (command == 'help') {
-        return message.channel.send(`${message.author}\n${help}`);
+        return message.channel.send(`${message.author}\n${help_str}`);
     }
     // list all deadlines
     else if (command == 'reminders') {
@@ -243,7 +248,7 @@ client.on('message', message => {
         message.react('712739654398377985');
         message.react('🔥');
         if (!args.length) {
-            return message.channel.send(`You didn't provide any arguments, ${message.author}!`);
+            return message.channel.send(`Who am I supposed to bully, ${message.author}?`);
         }
         return message.channel.send(`${message.author.username} told you to work, ${args[0]}! You think you can get a job at this rate?`);
     }
@@ -251,7 +256,7 @@ client.on('message', message => {
         message.react('681719502295269376');
         message.react('🔫');
         if (!args.length) {
-            return message.channel.send(`You've been attacked with an uppercut, ${message.author}! It was super effective.`);
+            return message.channel.send(`Who do I attack, ${message.author}? You?`);
         }
         return message.channel.send(`You've been attacked by ${message.author.username} with an uppercut, ${args[0]}! It was super effective.`);
     }
