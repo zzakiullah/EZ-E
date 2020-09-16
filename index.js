@@ -84,7 +84,8 @@ const client = new Discord.Client();
 // when the client is ready, run this code
 // this event will only trigger one time after logging in
 client.once('ready', () => {
-	console.log('Ready!');
+    console.log('Ready!');
+    client.user.setActivity("with binary trees 🌲");
 });
 
 // listen for messages
@@ -239,6 +240,9 @@ client.on('message', message => {
         }
         var emails_str = get_string_from_array(emails[args[0]]);
         return message.channel.send(`${message.author} Here's the email list for ${args[0]}:\n\n${emails_str}`);
+    }
+    else if (command == 'today') {
+        return message.channel.send(`${message.author} Here are the classes today:`);
     }
     else if (command == 'logout') {
         clearInterval(cron_check);
