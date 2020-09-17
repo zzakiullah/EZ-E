@@ -43,6 +43,25 @@ class Cron {
         this.included(this.days_of_month, date.getDate()) && this.included(this.month, date.getMonth()) &&
         this.included(this.days_of_week, date.getDay()));
     }
+
+    matches_today(date) {
+        return (this.included(this.days_of_month, date.getDate()) && this.included(this.month, date.getMonth()) &&
+        this.included(this.days_of_week, date.getDay()));
+    }
+
+    get_time_string() {
+        var time_str = "";
+        for (let i=0; i<this.hours.length; i++) {
+            for (let j=0; j<this.minutes.length; j++) {
+                if (time_str) {
+                    time_str += ", ";
+                }
+                // change 15 later to make it more modular
+                time_str += `${this.hours[i].toString()}:${(this.minutes[i] + 15).toString()}`;
+            }
+        }
+        return time_str;
+    }
 }
 
 // use fs
@@ -70,6 +89,7 @@ var dates = config.dates;
 
 var cron_array = [];
 var message_array = [];
+var short_message_array = [];
 
 var cron_check = setInterval(check_cron_expressions, 60000);
 
@@ -77,6 +97,7 @@ config_dates();
 
 // require the discord.js module
 const Discord = require('discord.js');
+const { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } = require('constants');
 
 // create a new Discord client
 const client = new Discord.Client();
@@ -242,7 +263,35 @@ client.on('message', message => {
         return message.channel.send(`${message.author} Here's the email list for ${args[0]}:\n\n${emails_str}`);
     }
     else if (command == 'today') {
-        return message.channel.send(`${message.author} Here are the classes today:`);
+        var today = new Date();
+        var today_list = "\n";
+        for (let i=0; i<cron_array.length; i++) {
+            if (cron_array[i].matches_today(today)) {
+                today_list += `\n${cron_array[i].get_time_string()} - ${short_message_array[i]}`;
+            }
+        }
+        if (today_list == "\n") {
+            today_list = "Nothing today!"
+        }
+        return message.channel.send(`${message.author} Here's what we have today: ${today_list}`);
+    }
+    else if (command == 'playing' || command == 'watching' || command == 'listening' || command == 'streaming') {
+        if (!args.length) {
+            return message.channel.send(`You didn't provide any arguments, ${message.author}!`);
+        }
+        var msg = message.content;
+        var q = msg.match(/\"/g);
+        if (q == null) {
+            return message.channel.send(`You need quotations around your message, ${message.author}!`);
+        }
+        var num_quotes = q.length;
+        num_quotes = !num_quotes ? 0 : num_quotes;
+        if (num_quotes != 2) {
+            return message.channel.send(`You have the wrong number of quotation marks, ${message.author}! There should be 2 but you have ${num_quotes}.`);
+        }
+        var activity = msg.split('"')[1];
+        client.user.setActivity(activity, { type: command.toUpperCase() });
+        return message.channel.send(`${message.author} Check it out, I'm now ${command} ${activity}.`);
     }
     else if (command == 'logout') {
         clearInterval(cron_check);
@@ -302,11 +351,13 @@ function get_string_from_array(str_array) {
 
 function config_dates() {
     for (let i=0; i<dates.length; i++) {
-        var cron_exp = dates[i].split('|')[0];
-        var message = dates[i].split('|')[1];
+        var cron_exp = dates[i].cron;
+        var message = dates[i].message;
+        var short_message = dates[i].short;
         var cron = new Cron(cron_exp);
         cron_array.push(cron);
         message_array.push(message);
+        short_message_array.push(short_message);
     }
 }
 
