@@ -57,7 +57,19 @@ class Cron {
                     time_str += ", ";
                 }
                 // change 15 later to make it more modular
-                time_str += `${this.hours[i].toString()}:${(this.minutes[i] + 15).toString()}`;
+                var m = 60 - (this.minutes[i] + 15);
+                var h = this.hours[i] + (this.minutes[i] + 15 >= 60 ? 1 : 0);
+                var m_str = "";
+                if (m == 0) {
+                    m_str = "00";
+                }
+                else if (m > 0 && m < 10) {
+                    m_str = `0${m.toString()}`;
+                }
+                else {
+                    m_str = m.toString();
+                }
+                time_str += `${h.toString()}:${m_str}`;
             }
         }
         return time_str;
@@ -224,7 +236,7 @@ client.on('message', message => {
         if (!args.length) {
             return message.channel.send(`${message.author} I need a course name! ${valid_courses}`);
         }
-        else if (!courses.includes(args[0])) {
+        else if (!meetings.hasOwnProperty(args[0])) {
             return message.channel.send(`${message.author} There are no meetings for ${args[0]}! ${valid_courses}`);
         }
         var meetings_str = get_string_from_array(meetings[args[0]]);
@@ -235,7 +247,7 @@ client.on('message', message => {
         if (!args.length) {
             return message.channel.send(`${message.author} I need a course name! ${valid_courses}`);
         }
-        else if (!courses.includes(args[0])) {
+        else if (!links.hasOwnProperty(args[0])) {
             return message.channel.send(`${message.author} There are no additional links for ${args[0]}! ${valid_courses}`);
         }
         var links_str = get_string_from_array(links[args[0]]);
@@ -246,7 +258,7 @@ client.on('message', message => {
         if (!args.length) {
             return message.channel.send(`${message.author} I need a course name! ${valid_courses}`);
         }
-        else if (!courses.includes(args[0])) {
+        else if (!drive.hasOwnProperty(args[0])) {
             return message.channel.send(`${message.author} There is no Drive link for ${args[0]}! ${valid_courses}`);
         }
         return message.channel.send(`${message.author} Here's the drive link for ${args[0]}:\n${drive[args[0]]}`);
@@ -256,7 +268,7 @@ client.on('message', message => {
         if (!args.length) {
             return message.channel.send(`${message.author} I need a course name! ${valid_courses}`);
         }
-        else if (!courses.includes(args[0])) {
+        else if (!emails.hasOwnProperty(args[0])) {
             return message.channel.send(`${message.author} There are no emails listed for ${args[0]}! ${valid_courses}`);
         }
         var emails_str = get_string_from_array(emails[args[0]]);
@@ -292,6 +304,16 @@ client.on('message', message => {
         var activity = msg.split('"')[1];
         client.user.setActivity(activity, { type: command.toUpperCase() });
         return message.channel.send(`${message.author} Check it out, I'm now ${command} ${activity}.`);
+    }
+    else if (command == 'avatar') {
+        if (!args.length) {
+            return message.channel.send(`You didn't provide any arguments, ${message.author}!`);
+        }
+        else if (!args[0].match(/\.(jpeg|jpg|gif|png)$/)) {
+            return message.channel.send(`${message.author} You didn't give me a valid photo. Valid photos are \`jpeg\`, \`jpg\`, \`gif\`, and \`png\`.`);
+        }
+        client.user.setAvatar(args[0]);
+        return message.channel.send(`${message.author} Check out my new profile picture!`);
     }
     else if (command == 'logout') {
         clearInterval(cron_check);
