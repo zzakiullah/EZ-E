@@ -17,7 +17,8 @@
 		"`!playing <activity>` - Give me something to play!",
 		"`!watching <activity>` - Give me something to watch!",
 		"`!listening <activity>` - Give me something to listen to!",
-		"`!streaming <activity>` - Tell me what I should stream!"
+		"`!streaming <activity>` - Tell me what I should stream!",
+		"`!avatar <photo url>` - Set my profile picture!"
 	],
 	"courses": ["109", "204", "205", "222", "240", "250"],
 	"drive": {
