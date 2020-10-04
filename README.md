@@ -16,6 +16,8 @@ A Discord bot to help us (hopefully) not fail ECE
 
 `!links <course>` - Get additional links for a course
 
+`!answers <course>` - Get textbook answers for a course 
+
 `!emails <course>` - Get a list of emails for a course
 
 `!breakdown <course>` - Get the marking breakdown for a course
