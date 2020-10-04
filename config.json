@@ -18,7 +18,10 @@
 		"`!watching <activity>` - Give me something to watch!",
 		"`!listening <activity>` - Give me something to listen to!",
 		"`!streaming <activity>` - Tell me what I should stream!",
-		"`!avatar <photo url>` - Set my profile picture!"
+		"`!avatar <photo url>` - Set my profile picture!",
+		"`!f` - For those moments where we need an F in the chat",
+		"`!play <YouTube URL>` - Play a song from YouTube",
+		"`!dabtime` - Play Megalovania"
 	],
 	"courses": ["109", "204", "205", "222", "240", "250"],
 	"drive": {
