@@ -8,6 +8,7 @@
 		"`!drive <course>` - Get the Google Drive link for a course",
 		"`!meetings <course>` - Get a list of meeting links for a course",
 		"`!links <course>` - Get additional links for a course",
+		"`!answers <course>` - Get textbook answers for a course`",
 		"`!emails <course>` - Get a list of emails for a course",
 		"`!breakdown <course>` - Get the marking breakdown for a course",
 		"`!contents <course>` - Get the contents being covered for a course",
@@ -58,6 +59,11 @@
 		],
 		"250": [
 			"Piazza: "
+		]
+	},
+	"answers": {
+		"240": [
+			""
 		]
 	},
 	"emails": {
