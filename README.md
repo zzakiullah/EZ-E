@@ -5,7 +5,7 @@ A Discord bot to help us (hopefully) not fail ECE
 ## Command List
 `!help` - Get the list of commands
 
-#### School Related
+#### School
 `!courses` - Get the list of courses
 
 `!today` - Get a list of what we have today
@@ -22,7 +22,14 @@ A Discord bot to help us (hopefully) not fail ECE
 
 `!contents <course>` - Get the contents being covered for a course
 
-#### Bot Related
+### Music
+Note: These commands must be sent in a voice channel.
+
+`!play <YouTube URL>` - Play a song from YouTube
+
+`!dabtime` - Play Megalovania
+
+#### Meta
 `!playing <activity>` - Give me something to play!
 
 `!watching <activity>` - Give me something to watch!
@@ -39,3 +46,5 @@ A Discord bot to help us (hopefully) not fail ECE
 `!attack <username>` - Attack someone when you feel harassed
 
 `!love <username>` - Send your love to someone. Don't provide a username and I'll send love to you instead.
+
+`!f` - For those moments where we need an F in the chat
