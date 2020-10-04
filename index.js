@@ -56,9 +56,10 @@ class Cron {
                 if (time_str) {
                     time_str += ", ";
                 }
-                // change 15 later to make it more modular
-                var m = 60 - (this.minutes[i] + 15);
-                var h = this.hours[i] + (this.minutes[i] + 15 >= 60 ? 1 : 0);
+                // change 5 later to make it more modular
+                var time_before = 5;
+                var m = 60 - (this.minutes[i] + time_before);
+                var h = this.hours[i] + (this.minutes[i] + time_before >= 60 ? 1 : 0);
                 var m_str = "";
                 if (m == 0) {
                     m_str = "00";
@@ -79,6 +80,8 @@ class Cron {
 // use fs
 const fs = require('fs');
 
+const ytdl = require('ytdl-core');
+
 // get information from config file
 const config = require('./config.json');
 const prefix = config.prefix,
@@ -88,7 +91,8 @@ const prefix = config.prefix,
       drive = config.drive,
       meetings = config.meetings,
       links = config.links,
-      emails = config.emails;
+      emails = config.emails,
+      answers = config.answers;
 
 //const token = process.env.DISCORD_TOKEN;
 
@@ -263,6 +267,17 @@ client.on('message', message => {
         }
         return message.channel.send(`${message.author} Here's the drive link for ${args[0]}:\n${drive[args[0]]}`);
     }
+    else if (command == 'answers') {
+        var valid_courses = get_valid_courses(answers);
+        if (!args.length) {
+            return message.channel.send(`${message.author} I need a course name! ${valid_courses}`);
+        }
+        else if (!links.hasOwnProperty(args[0])) {
+            return message.channel.send(`${message.author} There are no additional links for ${args[0]}! ${valid_courses}`);
+        }
+        var answers_str = get_string_from_array(answers[args[0]]);
+        return message.channel.send(`${message.author} Here are links to textbook answers for ${args[0]}:\n\n${answers_str}`);
+    }
     else if (command == 'emails') {
         var valid_courses = get_valid_courses(emails);
         if (!args.length) {
@@ -343,9 +358,40 @@ client.on('message', message => {
         }
         return message.channel.send(`${message.author.username} sends their love, ${args[0]}!`);
     }
-    message.react('625923437105512468');
-    message.react('🤔');
-    return message.channel.send(`I don't understand what you just said, ${message.author}! Maybe you meant something else?`);
+    else if (command == 'f') {
+        message.react('🇫');
+        return message.channel.send(`########\n#\n#\n####\n#\n#\n#`);
+    }
+    else if (command == 'play') {
+		const voice_channel = message.member.voice.channel;
+		if (!voice_channel) {
+			return message.reply(`${message.author} You need to join a voice channel first!`);
+        }
+        if (!args.length) {
+            return message.channel.send(`I need a YouTube link, ${message.author}!`);
+        }
+		voice_channel.join().then(connection => {
+			const stream = ytdl(args[0], { filter: 'audioonly' });
+			const dispatcher = connection.play(stream);
+			dispatcher.on('finish', () => voice_channel.leave());
+		});
+    }
+    else if (command == 'dabtime') {
+		const voice_channel = message.member.voice.channel;
+		if (!voice_channel) {
+			return message.reply(`${message.author} You need to join a voice channel first!`);
+        }
+		voice_channel.join().then(connection => {
+			const stream = ytdl('https://www.youtube.com/watch?v=c5daGZ96QGU&ab_channel=Misaki', { filter: 'audioonly' });
+			const dispatcher = connection.play(stream);
+			dispatcher.on('finish', () => voice_channel.leave());
+		});
+    }
+    else {
+        message.react('625923437105512468');
+        message.react('🤔');
+        return message.channel.send(`I don't understand what you just said, ${message.author}! Maybe you meant something else?`);
+    }
 });
 
 // login to Discord with your app's token
